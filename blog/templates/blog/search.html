@@ -1,0 +1,48 @@
+{% extends 'blog/base.html' %}
+
+{% block title %}
+    DBNX | Blog
+{% endblock title %}
+    {% load static %}
+    {% load humanize %}
+{% block content %}
+        <!-- Hero Start-->
+        <h2>Search for "{{query}}"</h2>
+        <!--Hero End -->
+        <!--================Blog Area =================-->
+        <div class="container">
+            <div class="row">
+                {% if posts %}
+                {% for post in posts %}
+                    <div class="col-sm-6">
+                        <div class="card" style="width: 18rem;">
+                            {% if post.image %}
+                                <img class="card-img rounded-0" src="{{  post.image.url }}" alt="">
+                            {% endif %}
+                            <div class="card-body">
+                                <h5 class="card-title">
+                                    <a href="{{ post.get_absolute_url }}">
+                                        {{post.title}}
+                                    </a>
+                                </h5>
+                                <p class="card-text">{{ post.body | safe | truncatewords:25 }}</p>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                {% else %}
+                <div class="col-sm-6">
+                    <div class="card" style="width: 18rem;">
+                        <div class="card-body">
+                            <h5 class="card-title">
+                                Your search for <strong>"{{query}}"</strong> did not match any results.
+                            </h5>
+                        </div>
+                    </div>
+                </div>
+                {% endif %}
+
+                {% include 'blog/pagination.html' %}
+            </div>
+        </div>
+                   {% endblock %}

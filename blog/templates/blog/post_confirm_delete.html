@@ -1,0 +1,28 @@
+{% extends 'blog/base.html' %}
+{% load crispy_forms_tags %}
+{% block content %}
+    <div class="container" style="margin-top: 50px;">
+        <h3>
+            Delete Post
+        </h3>
+        <div class="card">
+            <div class="container" style="margin-bottom: 20px; margin-top: 20px;" >
+                <p>Are you sure you want to delete post with title "{{object.title}}"</p>
+                <form method="POST">
+                    {% csrf_token %}
+                    {{form|crispy}}
+                    <button type="submit" class="btn btn-danger">Yes, Delete</button>
+                    <input
+                        action="action"
+                        class="btn btn-secondary"
+                        onclick="window.history.go(-1); return false;"
+                        type="submit"
+                        value="Cancel"
+                    />
+                  </form>
+            </div>
+            
+        </div>
+    </div>
+{% endblock content %}
+    

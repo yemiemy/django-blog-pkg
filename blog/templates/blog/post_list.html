@@ -1,0 +1,54 @@
+{% extends 'blog/base.html' %}
+
+{% block title %}
+    DBNX | Blog
+{% endblock title %}
+    {% load static %}
+    {% load humanize %}
+{% block content %}
+        <!-- Hero Start-->
+        <h2>Blog Area</h2>
+        {% if view.kwargs.name %}
+        <h2>Posts under {{view.kwargs.name}} ({{page_obj.paginator.count}})</h2>
+        {% elif view.kwargs.username %}
+        <h2>Posts under {{view.kwargs.username}} ({{page_obj.paginator.count}})</h2>
+        {% endif %}
+
+        <!--Hero End -->
+        <!--================Blog Area =================-->
+        <div class="container">
+            <div class="row">
+                {% if posts %}
+                {% for post in posts %}
+                    <div class="col-sm-6">
+                        <div class="card" style="width: 18rem;">
+                            {% if post.image %}
+                                <img class="card-img rounded-0" src="{{  post.image.url }}" alt="">
+                            {% endif %}
+                            <div class="card-body">
+                                <h5 class="card-title">
+                                    <a href="{{ post.get_absolute_url }}">
+                                        {{post.title}}
+                                    </a>
+                                </h5>
+                                <p class="card-text">{{ post.body | safe | truncatewords:25 }}</p>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                {% else %}
+                <div class="col-sm-6">
+                    <div class="card" style="width: 18rem;">
+                        <div class="card-body">
+                            <h5 class="card-title">
+                                There are no posts yet. Check back later.
+                            </h5>
+                        </div>
+                    </div>
+                </div>
+                {% endif %}
+
+                {% include 'blog/pagination.html' %}
+            </div>
+        </div>
+                   {% endblock %}

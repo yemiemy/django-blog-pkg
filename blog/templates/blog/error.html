@@ -1,0 +1,43 @@
+{% extends 'blog/base.html' %}
+
+{% block title %}
+    Server Error
+{% endblock title %}
+
+
+{% load static %}
+
+{% block content %}    
+<div class="hero-area2  slider-height2 hero-overly2 d-flex align-items-center">
+    <div class="container">
+          <div class="row">
+             <div class="col-xl-12">
+                <div class="hero-cap text-center pt-50">
+                      <h3>Error</h3>
+                </div>
+             </div>
+          </div>
+    </div>
+ </div>
+    <section class="blog_area single-post-area section-padding">
+        <div class="container">
+           <div class="row">
+              <div class="col-lg-8 posts-list">
+                 <div class="single-post">
+                    <div class="blog_details">
+                       <h2>Error detail
+                       </h2>
+                       <p class="excert">
+                          {{e}}
+                       </p>
+                       <p>
+                        The server could not process your request at the moment.
+                        <br>
+                       You can try making the request again. Cheers!
+                       </p>
+                    </div>
+                 </div>
+              </div>
+            {% endblock %}
+    
+        

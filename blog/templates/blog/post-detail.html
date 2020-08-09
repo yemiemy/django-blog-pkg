@@ -1,0 +1,158 @@
+{% extends 'blog/base.html' %}
+{% block title %}
+  DBNX | {{ object.title }}
+{% endblock title %}
+{% load static %}
+{% block content %}
+      <!-- Hero Start-->
+      
+      <!--Hero End -->
+      <!--================Blog Area =================-->
+      <section class="blog_area single-post-area section-padding">
+         <div class="container">
+            <div class="row">
+               <div class="col-lg-8 posts-list">
+                  <div class="single-post">
+                     <div class="feature-img">
+                        {% if object.image %}
+                        <img class="img-fluid" src="{{ object.image.url }}" alt="">
+                        {% endif %}
+                     </div>
+                     <div class="blog_details">
+                        <h2>{{ object.title }}
+                        </h2>
+                        <ul class="blog-info-link mt-3 mb-4">
+                           <li><a href="{% url 'post_tag' object.tag.name %}"><i class="far fa-user"></i> {{ object.tag }}</a></li>
+                           <li><a><i class="far fa-comments"></i> {{ count }} Comment(s)</a></li>
+                        </ul>
+                        <p class="excert">
+                           {{object.body | safe}}
+                        </p>
+                     </div>
+                  </div>
+                     <div class="navigation-area">
+                        <div class="row">
+                           {% if prev_post != None %}
+                              <div
+                              class="col-lg-6 col-md-6 col-12 nav-left flex-row d-flex justify-content-start align-items-center">
+                              <div class="thumb">
+                                  <a href="{{ prev_post.get_absolute_url }}">
+                                     {% if prev_post.image %}
+                                      <img class="img-fluid" src="{{ prev_post.image.url }}" width="60" height="60" alt="">
+                                      {% endif %}
+                                  </a>
+                              </div>
+                              <div class="arrow">
+                                  <a href="{{ prev_post.get_absolute_url }}">
+                                      <span class="lnr text-white ti-arrow-left"></span>
+                                  </a>
+                              </div>
+                              <div class="detials">
+                                  <a href="{{ prev_post.get_absolute_url }}">
+                                      <h4>{{ prev_post.title | truncatewords:3 }}</h4>
+                                      <p>Prev Post</p>
+                                  </a>
+                              </div>
+                              </div>
+                          {% endif %}
+  
+                          {% if next_post != None %}
+                              <div
+                              class="col-lg-6 col-md-6 col-12 nav-right flex-row d-flex justify-content-end align-items-center">
+                              <div class="detials">
+                                  <p>Next Post</p>
+                                  <a href="{{ next_post.get_absolute_url }}">
+                                      <h4>{{ next_post.title | truncatewords:3 }}</h4>
+                                  </a>
+                              </div>
+                              <div class="arrow">
+                                  <a href="{{ next_post.get_absolute_url }}">
+                                      <span class="lnr text-white ti-arrow-right"></span>
+                                  </a>
+                              </div>
+                              <div class="thumb">
+                                  <a href="{{ next_post.get_absolute_url }}">
+                                     {% if next_post.image %}
+                                      <img class="img-fluid" src="{{ next_post.image.url }}" width="60" height="60" alt="">
+                                      {% endif %}
+                                  </a>
+                              </div>
+                              </div>
+                          {% endif %}
+                       </div>
+                     </div>
+                  </div>
+                  <div class="blog-author">
+                     <div class="media align-items-center">
+                        <img src="{% static 'assets/img/blog/author.png' %}" alt="">
+                        <div class="media-body">
+                           <a href="{% url 'user_post' object.author.username %}">
+                              <h4>{{object.author}}</h4>
+                           </a>
+                           {% if object.author == user %}
+                              <a href="{% url 'post_update' object.id object.slug %}" class="btn btn-secondary btn-sm mb-0" style="color: black;">Update</a>
+                              <a href="{% url 'post_delete' object.id object.slug %}" class="btn btn-danger btn-sm mb-0" style="color: black;">Delete</a>
+                           {% endif %}
+                        </div>
+                     </div>
+                  </div>
+                  <div class="comments-area">
+                     <h4>{{count}} Comments</h4>
+                     {% for comment in comments %}
+                        {% if comment.active %}
+                       <div class="comment-list">
+                           <div class="single-comment justify-content-between d-flex">
+                               <div class="user justify-content-between d-flex">
+                               <div class="desc">
+                                   <p class="comment">
+                                       {{ comment.body }}
+                                   </p>
+                                   <div class="d-flex justify-content-between">
+                                       <div class="d-flex align-items-center">
+                                           <h5>
+                                           <a href="#">{{ comment.writer }}</a>
+                                           </h5>
+                                           <p class="date">{{ comment.published }}</p>
+                                       </div>
+                                   </div>
+                               </div>
+                               </div>
+                           </div>
+                       </div>
+                       {% endif %}
+                     {% endfor %}
+                  </div>
+                  <div class="comment-form">
+                     <h4>Leave a Reply</h4>
+                     <form class="form-contact comment_form" method="POST" id="commentForm">
+                        {% csrf_token %}
+                        <div class="row">
+                           <div class="col-12">
+                              <div class="form-group">
+                                 <textarea class="form-control w-100" name="body" id="comment" cols="30" rows="9"
+                                    placeholder="Write Comment" required></textarea>
+                              </div>
+                           </div>
+                           <div class="col-sm-6">
+                              <div class="form-group">
+                                 <input class="form-control" name="name" id="name" type="text" placeholder="Name" required>
+                              </div>
+                           </div>
+                           <div class="col-sm-6">
+                              <div class="form-group">
+                                 <input class="form-control" name="email" id="email" type="email" placeholder="Email">
+                              </div>
+                           </div>
+                           <div class="col-12">
+                              <div class="form-group">
+                                 <input class="form-control" name="web" id="website" type="text" placeholder="Website">
+                              </div>
+                           </div>
+                        </div>
+                        <div class="form-group">
+                           <button type="submit" class="button button-contactForm btn_1 boxed-btn">Send Message</button>
+                        </div>
+                     </form>
+                  </div>
+               </div>
+             {% endblock %}
