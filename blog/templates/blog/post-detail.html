@@ -22,7 +22,11 @@
                         <h2>{{ object.title }}
                         </h2>
                         <ul class="blog-info-link mt-3 mb-4">
+                           {% if object.tag %}
                            <li><a href="{% url 'post_tag' object.tag.name %}"><i class="far fa-user"></i> {{ object.tag }}</a></li>
+                           {% else %}
+                           <li><a><i class="far fa-user"></i> No tag</a></li>
+                           {% endif %}
                            <li><a><i class="far fa-comments"></i> {{ count }} Comment(s)</a></li>
                         </ul>
                         <p class="excert">

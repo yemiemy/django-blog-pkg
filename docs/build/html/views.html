@@ -1,0 +1,281 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Views &#8212; django-blog-pkg 0.0.1 documentation</title>
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/language_data.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Models" href="models.html" />
+    <link rel="prev" title="Installation" href="installation.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <div class="section" id="views">
+<h1>Views<a class="headerlink" href="#views" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="postlistview-listview">
+<h2>PostListView(ListView)<a class="headerlink" href="#postlistview-listview" title="Permalink to this headline">¶</a></h2>
+<p>PostListView class lists all the posts objects.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>    <span class="mf">1.</span> <span class="n">model</span> <span class="o">=</span> <span class="n">Post</span>
+    <span class="mf">2.</span> <span class="n">context_object_name</span> <span class="o">=</span> <span class="s1">&#39;posts&#39;</span>
+    <span class="mf">3.</span> <span class="n">template_name</span> <span class="o">=</span> <span class="s1">&#39;blog/post_list.html&#39;</span>
+    <span class="mf">4.</span> <span class="n">ordering</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;-id&#39;</span><span class="p">]</span>
+    <span class="mf">5.</span> <span class="n">paginate_by</span> <span class="o">=</span> <span class="mi">4</span>
+    <span class="k">def</span> <span class="nf">get_context_data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">the</span> <span class="n">following</span> <span class="n">contexts</span><span class="p">:</span>
+            <span class="s1">&#39;objects&#39;</span><span class="p">:</span> <span class="n">Post</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">all</span><span class="p">()</span><span class="o">.</span><span class="n">order_by</span><span class="p">(</span><span class="s1">&#39;-published&#39;</span><span class="p">)[:</span><span class="mi">5</span><span class="p">],</span>
+            <span class="s1">&#39;year&#39;</span><span class="p">:</span><span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span><span class="o">.</span><span class="n">year</span><span class="p">,</span>
+            <span class="s1">&#39;tags&#39;</span><span class="p">:</span> <span class="n">Tag</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">all</span><span class="p">()</span>
+
+<span class="n">The</span> <span class="s1">&#39;urlpatterns&#39;</span> <span class="n">info</span><span class="p">:</span> <span class="p">::</span>
+
+    <span class="n">path</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">PostListView</span><span class="o">.</span><span class="n">as_view</span><span class="p">(),</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;post_list&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="tagpostlistview-listview">
+<h2>TagPostListView(ListView)<a class="headerlink" href="#tagpostlistview-listview" title="Permalink to this headline">¶</a></h2>
+<p>TagPostListView lists all the posts under a particular tag.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>    1. model = Post
+    2. context_object_name = &#39;posts&#39;
+    3. template_name = &#39;blog/post_list.html&#39;
+    4. ordering = [&#39;-id&#39;]
+    5. paginate_by = 4
+    def get_context_data(self, **kwargs):
+        return the following contexts:
+            &#39;objects&#39;: Post.objects.all().order_by(&#39;-published&#39;)[:5],
+            &#39;year&#39;:datetime.now().year,
+            &#39;tags&#39;: Tag.objects.all()
+
+The `urlpatterns` info: ::
+
+    path(&#39;category/&lt;str:name&gt;&#39;, TagPostListView.as_view(), name=&#39;post_tag&#39;)
+</pre></div>
+</div>
+</div>
+<div class="section" id="authorpostlistview-listview">
+<h2>AuthorPostListView(ListView)<a class="headerlink" href="#authorpostlistview-listview" title="Permalink to this headline">¶</a></h2>
+<p>AuthorPostListView lists all the posts by a particular user(author).</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>    1. model = Post
+    2. context_object_name = &#39;posts&#39;
+    3. template_name = &#39;blog/post_list.html&#39;
+    4. ordering = [&#39;-published&#39;]
+    5. paginate_by = 4
+    def get_context_data(self, **kwargs):
+        return the following contexts:
+            &#39;objects&#39;: Post.objects.all().order_by(&#39;-published&#39;)[:5],
+            &#39;year&#39;:datetime.now().year,
+            &#39;tags&#39;: Tag.objects.all()
+
+The `urlpatterns` info: ::
+
+    path(&#39;post/&lt;str:username&gt;&#39;, AuthorPostListView.as_view(), name=&#39;user_post&#39;)
+</pre></div>
+</div>
+</div>
+<div class="section" id="postcreateview-loginrequiredmixin-createview">
+<h2>PostCreateView(LoginRequiredMixin, CreateView)<a class="headerlink" href="#postcreateview-loginrequiredmixin-createview" title="Permalink to this headline">¶</a></h2>
+<dl>
+<dt>PostCreateView creates a new post.</dt><dd><p>NOTE: user has to be authenticated to create a post.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="mf">1.</span> <span class="n">model</span> <span class="o">=</span> <span class="n">Post</span>
+<span class="mf">2.</span> <span class="n">fields</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;title&#39;</span><span class="p">,</span> <span class="s1">&#39;image&#39;</span><span class="p">,</span> <span class="s1">&#39;body&#39;</span><span class="p">,</span> <span class="s1">&#39;tag&#39;</span><span class="p">]</span>
+</pre></div>
+</div>
+<p>The <cite>urlpatterns</cite> info:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">path</span><span class="p">(</span><span class="s1">&#39;create/new/&#39;</span><span class="p">,</span> <span class="n">PostCreateView</span><span class="o">.</span><span class="n">as_view</span><span class="p">(),</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;post_create&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+</div>
+<div class="section" id="postupdateview-loginrequiredmixin-userpassestestmixin-updateview">
+<h2>PostUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView)<a class="headerlink" href="#postupdateview-loginrequiredmixin-userpassestestmixin-updateview" title="Permalink to this headline">¶</a></h2>
+<dl>
+<dt>PostUpdateView updates an existing post.</dt><dd><blockquote>
+<div><dl>
+<dt>NOTE:</dt><dd><ol class="arabic">
+<li><p>user must be authenticated to delete a post.</p></li>
+<li><p>user must be author of a post to delete that post.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">model</span> <span class="o">=</span> <span class="n">Post</span>
+<span class="n">fields</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;title&#39;</span><span class="p">,</span> <span class="s1">&#39;image&#39;</span><span class="p">,</span> <span class="s1">&#39;body&#39;</span><span class="p">,</span> <span class="s1">&#39;tag&#39;</span><span class="p">]</span>
+</pre></div>
+</div>
+</li>
+</ol>
+</dd>
+</dl>
+</div></blockquote>
+<p>The <cite>urlpatterns</cite> info:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">path</span><span class="p">(</span><span class="s1">&#39;post/&lt;int:pk&gt;-&lt;str:slug&gt;/update/&#39;</span><span class="p">,</span> <span class="n">PostUpdateView</span><span class="o">.</span><span class="n">as_view</span><span class="p">(),</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;post_update&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+</div>
+<div class="section" id="postdeleteview-loginrequiredmixin-userpassestestmixin-deleteview">
+<h2>PostDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView)<a class="headerlink" href="#postdeleteview-loginrequiredmixin-userpassestestmixin-deleteview" title="Permalink to this headline">¶</a></h2>
+<dl>
+<dt>PostDeleteView deletes an existing post.</dt><dd><blockquote>
+<div><dl>
+<dt>NOTE:</dt><dd><ol class="arabic">
+<li><p>user must be authenticated to delete a post.</p></li>
+<li><p>user must be author of a post to delete that post.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">model</span> <span class="o">=</span> <span class="n">Post</span>
+<span class="n">success_url</span> <span class="o">=</span> <span class="s1">&#39;/blog&#39;</span>
+</pre></div>
+</div>
+</li>
+</ol>
+</dd>
+</dl>
+</div></blockquote>
+<p>The <cite>urlpatterns</cite> info:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">path</span><span class="p">(</span><span class="s1">&#39;post/&lt;int:pk&gt;-&lt;str:slug&gt;/delete/&#39;</span><span class="p">,</span> <span class="n">PostDeleteView</span><span class="o">.</span><span class="n">as_view</span><span class="p">(),</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;post_delete&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+</div>
+<div class="section" id="postdetailview-request-pk-slug">
+<h2>postDetailView(request, pk, slug)<a class="headerlink" href="#postdetailview-request-pk-slug" title="Permalink to this headline">¶</a></h2>
+<p>postDetailView displays the details of a post.</p>
+<blockquote>
+<div><blockquote>
+<div><dl class="simple">
+<dt>Args:</dt><dd><ol class="arabic simple">
+<li><p>pk (int) This is the unique primary key(id number) of each post.</p></li>
+<li><p>slug (slug) This is the unique slug auto generated from the title of each post.</p></li>
+</ol>
+</dd>
+</dl>
+<p>It checks for request method. if request method is <cite>POST</cite>, it takes in the required field
+to create a comment object related to the particular post.</p>
+<p>It displays all the comment associated with a post on the detail page of that post.</p>
+</div></blockquote>
+<p>The <cite>urlpatterns</cite> info:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">path</span><span class="p">(</span><span class="s1">&#39;blog/&lt;int:pk&gt;-&lt;str:slug&gt;/&#39;</span><span class="p">,</span> <span class="n">postDetailView</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;post_detail&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div></blockquote>
+</div>
+<div class="section" id="search-view-request">
+<h2>search_view(request)<a class="headerlink" href="#search-view-request" title="Permalink to this headline">¶</a></h2>
+<p>search_view searches through the Post objects.</p>
+<blockquote>
+<div><blockquote>
+<div><p>It uses the <cite>GET</cite> request to take in the <cite>query</cite> and searches through the
+<cite>Post title</cite> and <cite>Post body</cite>.</p>
+</div></blockquote>
+<p>The <cite>urlpatterns</cite> info:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">path</span><span class="p">(</span><span class="s1">&#39;search/&#39;</span><span class="p">,</span> <span class="n">search_view</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;search_blog&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div></blockquote>
+</div>
+</div>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="index.html">django-blog-pkg</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="overview.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Views</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#postlistview-listview">PostListView(ListView)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#tagpostlistview-listview">TagPostListView(ListView)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#authorpostlistview-listview">AuthorPostListView(ListView)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#postcreateview-loginrequiredmixin-createview">PostCreateView(LoginRequiredMixin, CreateView)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#postupdateview-loginrequiredmixin-userpassestestmixin-updateview">PostUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#postdeleteview-loginrequiredmixin-userpassestestmixin-deleteview">PostDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#postdetailview-request-pk-slug">postDetailView(request, pk, slug)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#search-view-request">search_view(request)</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="models.html">Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="templates.html">Templates</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="installation.html" title="previous chapter">Installation</a></li>
+      <li>Next: <a href="models.html" title="next chapter">Models</a></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2020, Olaoluwayemi Rasheed.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 3.2.0</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="_sources/views.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

@@ -1,12 +1,12 @@
 # Blog App
-django-blog-app is a simple django blog app to help developers add simple blogs to their main projects. The app allows creating, updating and deleting of posts. It also allows comments on each post. Posts can be grouped under different Tags(categries).
+django-blog-pkg is a simple django blog app to help developers add simple blogs to their main projects. The app allows creating, updating and deleting of posts. It also allows comments on each post. Posts can be grouped under different Tags(categries).
 
-Detailed documentation is found below.
+Detailed documentation is found in the docs directory or visit [django-blog-pkgdocumentation](https://django-blog-pkg.readthedocs.io/en/latest/).
 
 ## Installation
 1. #### Python Package
 ```
-pip install django-blog-app
+pip install django-blog-pkg
 ```
 
 2. #### Other Important apps to DOWNLOAD:
@@ -48,6 +48,7 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 urlpatterns = [
     ...
     path('blog/', include('blog.urls')),
+    path('ckeditor/', include('ckeditor_uploader.urls')),
     ...
 ]
 # You can use the URLs provided by blog: `post_list`, `post_detail`, `post_tag`, `post_update`, `post_delete`, `post_create`, `search_blog`, `user_post`
@@ -71,6 +72,12 @@ python manage.py makemigrations
 python manage.py migrate
 ```
 
+#### Start the development server 
+`python manage.py runserver`
+
+and visit `http://127.0.0.1:8000/admin/` or `http://127.0.0.1:8000/blog/create/new/`
+to create blog posts (you'll need the Admin app enabled).
+
 ### Source code
 
-[django-blog-app](https://www.github.com/yemiemy/django-blog-app)
+[django-blog-pkg](https://www.github.com/yemiemy/django-blog-pkg)
