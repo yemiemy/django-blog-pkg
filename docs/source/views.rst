@@ -6,6 +6,7 @@ PostListView(ListView)
 
 PostListView class lists all the posts objects. ::
     
+    The following list contains the components that I used to make this view in case you need to customize it to fit your need.
         1. model = Post
         2. context_object_name = 'posts'
         3. template_name = 'blog/post_list.html'
@@ -26,6 +27,7 @@ TagPostListView(ListView)
 
 TagPostListView lists all the posts under a particular tag. ::
     
+    The following list contains the components that I used to make this view in case you need to customize it to fit your need.
         1. model = Post
         2. context_object_name = 'posts'
         3. template_name = 'blog/post_list.html'
@@ -46,6 +48,7 @@ AuthorPostListView(ListView)
 
 AuthorPostListView lists all the posts by a particular user(author). ::
     
+    The following list contains the components that I used to make this view in case you need to customize it to fit your need.
         1. model = Post
         2. context_object_name = 'posts'
         3. template_name = 'blog/post_list.html'
@@ -67,6 +70,7 @@ PostCreateView(LoginRequiredMixin, CreateView)
 PostCreateView creates a new post.
     NOTE: user has to be authenticated to create a post. ::
 
+        The following list contains the components that I used to make this view in case you need to customize it to fit your need.
         1. model = Post
         2. fields = ['title', 'image', 'body', 'tag']
 
@@ -81,7 +85,8 @@ PostUpdateView updates an existing post.
         NOTE: 
             1. user must be authenticated to delete a post. 
             2. user must be author of a post to delete that post. ::
-   
+            
+                The following list contains the components that I used to make this view in case you need to customize it to fit your need.
                 model = Post
                 fields = ['title', 'image', 'body', 'tag']
    
@@ -96,7 +101,8 @@ PostDeleteView deletes an existing post.
         NOTE: 
             1. user must be authenticated to delete a post. 
             2. user must be author of a post to delete that post. ::
-    
+            
+                The following list contains the components that I used to make this view in case you need to customize it to fit your need.
                 model = Post
                 success_url = '/blog'
 
